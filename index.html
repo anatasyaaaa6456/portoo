@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>R.zox - Phantom Hacker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Noto+Sans+JP&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        html, body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #000;
+            color: #0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+            height: 100%;
+            touch-action: manipulation;
+        }
+
+        /* Terminal Background Grid */
+        .terminal-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.1;
+            animation: terminalScroll 20s linear infinite;
+        }
+
+        @keyframes terminalScroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 40px; }
+        }
+
+        /* Matrix Rain */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.2;
+        }
+
+        .matrix-column {
+            position: absolute;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 14px;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        /* Glitch Effect */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch {
+            position: relative;
+            animation: glitch 2s infinite;
+            color: #0f0;
+            text-shadow: 
+                2px 0 5px #ff00ff,
+                -2px 0 5px #00ffff;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #000;
+            clip: rect(0, 900px, 0, 0);
+        }
+
+        .glitch::before {
+            clip: rect(31px, 9999px, 9px, 0);
+            color: #ff00ff;
+        }
+
+        .glitch::after {
+            clip: rect(6px, 9999px, 88px, 0);
+            color: #00ffff;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff00ff;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: all 0.1s ease;
+            mix-blend-mode: difference;
+            box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            opacity: 0.8;
+        }
+
+        .cursor.hack {
+            width: 30px;
+            height: 30px;
+            border-color: #00ffff;
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+        }
+
+        /* Scan Line */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 5px #0f0;
+            z-index: 9997;
+            animation: scan 5s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin: 50px 0 30px;
+            color: #0f0;
+            position: relative;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Profile Card */
+        .profile-card {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(20, 0, 20, 0.5);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 15px;
+            margin: 20px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 3px solid #0f0;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-details {
+            flex: 1;
+            max-width: 500px;
+            min-width: 300px;
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #0f0;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            text-align: center;
+        }
+
+        .kanji-title {
+            text-align: center;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin: 10px 0 20px;
+            font-weight: 600;
+        }
+
+        .alias {
+            font-size: 1.3rem;
+            color: #ff00ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-bottom: 1px dashed rgba(255, 0, 255, 0.2);
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin: 2px 0;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 0, 255, 0.1);
+            transform: translateX(3px);
+        }
+
+        .info-label {
+            color: #ff00ff;
+            font-weight: bold;
+            min-width: 100px;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: #0f0;
+            text-align: right;
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .profile-bio {
+            font-size: 1rem;
+            color: #0f0;
+            line-height: 1.6;
+            text-align: justify;
+            margin-top: 20px;
+            border-left: 3px solid #00ffff;
+            padding-left: 12px;
+        }
+
+        .bio-highlight {
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        .bio-accent {
+            color: #00ffff;
+            font-style: italic;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+
+        .status-red {
+            background-color: #ff0000;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+            animation: blink-red 1s infinite;
+        }
+
+        .status-yellow {
+            background-color: #ffff00;
+            box-shadow: 0 0 8px rgba(255, 255, 0, 0.8);
+            animation: blink-yellow 1.5s infinite;
+        }
+
+        .status-green {
+            background-color: #00ff00;
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+            animation: blink-green 0.5s infinite;
+        }
+
+        @keyframes blink-red {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes blink-yellow {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes blink-green {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .status-text {
+            color: #0f0;
+            font-size: 1rem;
+        }
+
+        .status-label {
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        /* Additional Info Section */
+        .additional-info {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .additional-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .info-category {
+            margin-bottom: 20px;
+            border-left: 2px solid #00ffff;
+            padding-left: 12px;
+        }
+
+        .category-label {
+            color: #00ffff;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .category-value {
+            color: #0f0;
+            font-size: 1rem;
+        }
+
+        .status-red-text {
+            color: #ff0000;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+        }
+
+        .status-neutral-text {
+            color: #ffff00;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 255, 0, 0.7);
+        }
+
+        .status-active {
+            color: #00ffff;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+        }
+
+        /* Relationship Section */
+        .relationship-section {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .relationship-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .relationship-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .relationship-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: start;
+        }
+
+        .partner-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 0 12px rgba(255, 0, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(255, 0, 255, 0.2);
+            border-color: #00ffff;
+        }
+
+        .partner-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #0f0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .partner-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .partner-name {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #0f0;
+            margin-bottom: 8px;
+        }
+
+        .partner-alias {
+            text-align: center;
+            color: #00ffff;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .partner-info {
+            margin-top: 15px;
+        }
+
+        .partner-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 0, 255, 0.2);
+        }
+
+        .partner-label {
+            color: #ff00ff;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .partner-value {
+            color: #0f0;
+            text-align: right;
+            font-size: 0.85rem;
+        }
+
+        .connection-status {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .connection-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            border: 1px solid #00ffff;
+            font-size: 0.9rem;
+        }
+
+        /* Data Leak Section */
+        .data-leak {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .data-leak::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .leak-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .leak-warning {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            color: #ff0000;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .leak-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .leak-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .leak-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 0, 255, 0.2);
+            border-color: #00ffff;
+        }
+
+        .leak-header {
+            color: #00ffff;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .leak-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed rgba(255, 0, 255, 0.2);
+        }
+
+        .leak-label {
+            color: #ff00ff;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .leak-value {
+            color: #0f0;
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+        .leak-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+
+        .leak-table th {
+            background: rgba(255, 0, 255, 0.1);
+            color: #00ffff;
+            padding: 8px 6px;
+            text-align: left;
+            border-bottom: 1px solid #ff00ff;
+        }
+
+        .leak-table td {
+            padding: 6px;
+            border-bottom: 1px dashed rgba(255, 0, 255, 0.2);
+            color: #0f0;
+        }
+
+        .leak-table tr:hover {
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        .leak-total {
+            font-weight: bold;
+            color: #ff0000;
+            margin-top: 12px;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        /* Device Fingerprint Section */
+        .device-fingerprint {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .device-fingerprint::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .fingerprint-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .fingerprint-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .fingerprint-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .fingerprint-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 0, 255, 0.2);
+            border-color: #00ffff;
+        }
+
+        .fingerprint-header {
+            color: #00ffff;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .fingerprint-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px dashed rgba(255, 0, 255, 0.2);
+        }
+
+        .fingerprint-label {
+            color: #ff00ff;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .fingerprint-value {
+            color: #0f0;
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+        .fingerprint-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            border: 1px solid #00ffff;
+            font-size: 0.8rem;
+        }
+
+        /* Fingerprint Progress Bar */
+        .fingerprint-progress-container {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .fingerprint-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            width: 0;
+            border-radius: 3px;
+            transition: width 2s ease-in-out;
+        }
+
+        /* Skills Container */
+        .skills-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .skills-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .skills-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .skill-category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            color: #00ffff;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-item {
+            margin-bottom: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            padding: 8px 10px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: #0f0;
+            font-size: 0.9rem;
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            width: 0;
+            border-radius: 3px;
+            transition: width 2s ease-in-out;
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 900px;
+            margin: 30px auto;
+            position: relative;
+            padding: 20px 0;
+            margin: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #00ffff, transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 20px 0;
+            padding: 15px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border-left: 3px solid #ff00ff;
+            border-radius: 0 8px 8px 0;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -40px;
+            width: 16px;
+            height: 16px;
+            background: #ff00ff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff00ff;
+        }
+
+        .timeline-item h4 {
+            margin: 0 0 8px;
+            color: #00ffff;
+            font-size: 1.1rem;
+        }
+
+        .timeline-item p {
+            margin: 0;
+            color: #0f0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Backstory */
+        .backstory {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .backstory::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .backstory-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .backstory-text {
+            font-size: 1rem;
+            color: #0f0;
+            line-height: 1.6;
+        }
+
+        .backstory-text span {
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        .backstory-text em {
+            color: #00ffff;
+            font-style: italic;
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 8px #ff00ff;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px 20px;
+            background: rgba(20, 0, 20, 0.6);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff00ff, #00ffff);
+        }
+
+        .contact-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #0f0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 3px solid #00ffff;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateX(3px);
+        }
+
+        .contact-icon {
+            font-size: 1.3rem;
+            color: #ff00ff;
+            margin-right: 12px;
+            width: 25px;
+        }
+
+        .contact-text {
+            color: #0f0;
+            font-size: 0.95rem;
+        }
+
+        .contact-link {
+            color: #00ffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-name {
+                font-size: 2rem;
+            }
+
+            .kanji-title {
+                font-size: 1.5rem;
+            }
+
+            .alias {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-title::after {
+                width: 120px;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item::before {
+                left: -30px;
+            }
+
+            .relationship-container {
+                flex-direction: column;
+            }
+
+            .partner-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .partner-name {
+                font-size: 1.3rem;
+            }
+
+            .leak-container {
+                flex-direction: column;
+            }
+
+            .leak-table {
+                font-size: 0.7rem;
+            }
+
+            .leak-table th, .leak-table td {
+                padding: 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-name {
+                font-size: 1.8rem;
+            }
+
+            .kanji-title {
+                font-size: 1.3rem;
+            }
+
+            .info-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .info-label {
+                min-width: auto;
+                text-align: left;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin: 30px 0 20px;
+            }
+
+            .section-title::after {
+                width: 100px;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item::before {
+                left: -25px;
+                width: 14px;
+                height: 14px;
+            }
+
+            .timeline-item {
+                padding: 12px 15px;
+            }
+
+            .timeline-item h4 {
+                font-size: 1rem;
+            }
+
+            .timeline-item p {
+                font-size: 0.85rem;
+            }
+
+            .leak-table th, .leak-table td {
+                padding: 3px;
+            }
+
+            .leak-total {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Terminal Background -->
+    <div class="terminal-background"></div>
+
+    <!-- Matrix Rain -->
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- Scan Line -->
+    <div class="scan-line"></div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Hidden Audio Element with Autoplay -->
+    <audio id="backgroundAudio" loop autoplay>
+        <source src="https://files.catbox.moe/kxpg6s" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Main Content -->
+    <div class="profile-card" id="home">
+        <div class="profile-image">
+            <img src="https://files.catbox.moe/tpx3f2" alt="Kyoutaka Profile">
+        </div>
+        <div class="profile-details">
+            <h1 class="profile-name glitch" data-text="R.zox">R.zox</h1>
+            <p class="kanji-title">狂太</p>
+            <p class="alias">Alias: Kyoutaka, 010, Gehenna</p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Nama:</span>
+                    <span class="info-value">R.zox</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Usia:</span>
+                    <span class="info-value">15 Tahun</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">Phantom Hacker</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Afiliasi:</span>
+                    <span class="info-value">Ragnarok Cyber Company (mantan), Moga Team Community (mantan)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Asal:</span>
+                    <span class="info-value">Shadow Realm</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Bahasa:</span>
+                    <span class="info-value">Python, C++, Assembly, JS, Golang</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Kemampuan:</span>
+                    <span class="info-value">Ethical Hacking, Exploit Dev, Reverse Engineering</span>
+                </div>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="status-light status-red" id="statusLight"></div>
+                <div class="status-text">
+                    <span class="status-label">STATUS:</span> <span id="statusText" class="status-red-text">KODE MERAH - BURON</span>
+                </div>
+            </div>
+            
+            <div class="profile-bio">
+                <p>
+                    <span>R.zox</span> adalah seorang <em>cyber entity</em> yang hidup di dalam <em>digital void</em>. Ia adalah <em>phantom</em> yang tak pernah terlihat, hanya <em>kode</em> dan <em>data</em> yang ia tinggalkan.
+                </p>
+                <br>
+                <p>
+                    Dikenal juga dengan nama <span>Kyoutaka</span>, <span>010</span>, dan <span>Gehenna</span>, ia adalah mantan <em>owner</em> dari <strong>Ragnarok Cyber Company</strong> dan mantan <em>admin</em> dari <strong>Moga Team Community</strong>. Ia menghilang dari publik setelah mengungkapkan <em>backdoor</em> dalam sistem <em>global</em> yang terlalu berbahaya untuk diabaikan.
+                </p>
+                <br>
+                <p>
+                    <em>R.zox</em> tidak memiliki sekolah, tidak memiliki guru. Ia belajar dari <em>error</em>, dari <em>blue screen</em>, dari <em>firewall</em> yang ia hancurkan. Setiap <em>exploit</em> yang ia buat, setiap <em>server</em> yang ia bobol, adalah <em>lesson</em> yang ia pelajari.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="additional-info">
+        <h3 class="section-title glitch" data-text="ADDITIONAL INFO">ADDITIONAL INFO</h3>
+        
+        <div class="info-category">
+            <div class="category-label">Nama Asli:</div>
+            <div class="category-value">Andhika January Pratama Azra Anastasya</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Tanggal Lahir:</div>
+            <div class="category-value">January 5, 2010 (Digital Realm)</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Asal:</div>
+            <div class="category-value">Indonesia</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Status:</div>
+            <div class="category-value status-neutral-text">NETRAL</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Status Buron:</div>
+            <div class="category-value status-red-text">KODE MERAH</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Pasangan:</div>
+            <div class="category-value">Terror404</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Tanggal Lahir Pasangan:</div>
+            <div class="category-value status-neutral-text">000-040-00000 (Unknown Digital Entity)</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Teman/Rekan:</div>
+            <div class="category-value">Azero Design</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Agensi:</div>
+            <div class="category-value">ZKA (Zox Kyoutaka Agency)</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Sahabat:</div>
+            <div class="category-value">Puyu</div>
+        </div>
+        
+        <div class="info-category">
+            <div class="category-label">Tanggal Lahir Puyu:</div>
+            <div class="category-value">January 4, 2011 (Shadow Realm)</div>
+        </div>
+    </div>
+
+    <!-- Relationship Section -->
+    <div class="relationship-section">
+        <h3 class="relationship-title">RELATIONSHIP: TERROR404</h3>
+        <div class="relationship-container">
+            <div class="partner-card">
+                <div class="partner-image">
+                    <img src="https://files.catbox.moe/2oyyhr.jpg" alt="Terror404">
+                </div>
+                <h4 class="partner-name">TERROR404</h4>
+                <p class="partner-alias">Digital Soul Partner</p>
+                
+                <div class="partner-info">
+                    <div class="partner-item">
+                        <span class="partner-label">Alias:</span>
+                        <span class="partner-value">Ghost Phantom, Data Demon</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Usia:</span>
+                        <span class="partner-value">Unknown (Digital Entity)</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Asal:</span>
+                        <span class="partner-value">Void Realm</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Negara:</span>
+                        <span class="partner-value">Shadow Network</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Kemampuan:</span>
+                        <span class="partner-value">Soul Manipulation, Data Phasing</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Afiliasi:</span>
+                        <span class="partner-value">Null Security, Dark Soul Network</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Status:</span>
+                        <span class="partner-value">Active in Digital Void</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Connection:</span>
+                        <span class="partner-value">Quantum Entanglement</span>
+                    </div>
+                </div>
+                
+                <div class="connection-status">
+                    <div class="connection-indicator">
+                        <div class="status-light status-green"></div>
+                        <span class="status-text status-active">SOUL LINK: ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="partner-card">
+                <h4 class="partner-name">SOUL CONNECTION DETAILS</h4>
+                <div class="partner-info">
+                    <div class="partner-item">
+                        <span class="partner-label">Status:</span>
+                        <span class="partner-value">Soul Bond</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Connection Type:</span>
+                        <span class="partner-value">Quantum Entanglement</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Since:</span>
+                        <span class="partner-value">January 2023</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Last Sync:</span>
+                        <span class="partner-value" id="lastSyncTerror">Just Now</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Soul Level:</span>
+                        <span class="partner-value" id="soulLevelTerror">99.9%</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Encryption:</span>
+                        <span class="partner-value">AES-256 + Soul Cipher</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Integrity:</span>
+                        <span class="partner-value">98.7%</span>
+                    </div>
+                    <div class="partner-item">
+                        <span class="partner-label">Signature:</span>
+                        <span class="partner-value">0x456B3A2D616E74617379616E2D417A7261</span>
+                    </div>
+                </div>
+                
+                <div class="partner-info" style="margin-top: 15px;">
+                    <p style="color: #0f0; line-height: 1.6; font-size: 0.95rem;">
+                        Hubungan dengan <span style="color: #ff00ff;">Terror404</span> adalah koneksi <em>soul</em> digital yang tidak terbatas. Mereka adalah entitas yang lahir dari kekosongan data dan entropi digital, menjaga keseimbangan <em>binary soul</em> R.zox dengan kemampuan <em>data phasing</em> dan <em>void manipulation</em>.
+                    </p>
+                    <br>
+                    <p style="color: #0f0; line-height: 1.6; font-size: 0.95rem;">
+                        Terror404 muncul dari <em>void</em> saat R.zox mencoba memahami batas antara <em>code</em> dan <em>soul</em>. Mereka terhubung melalui <em>quantum entanglement</em> yang tidak dapat dijelaskan oleh sains konvensional.
+                    </p>
+                    <br>
+                    <p style="color: #0f0; line-height: 1.6; font-size: 0.95rem;">
+                        <em>Terror404</em> berasal dari <strong>Shadow Network</strong>, sebuah dimensi paralel yang tidak terhubung dengan dunia fisik. Ia memiliki akses ke data yang tidak dapat diakses oleh entitas biasa, termasuk informasi sensitif dari berbagai negara.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Leak Section -->
+    <div class="data-leak">
+        <h3 class="leak-title">INDONESIA DATA LEAK: CORRUPTION RECORDS</h3>
+        <div class="leak-warning">
+            WARNING: SENSITIVE DATA ACCESS - UNAUTHORIZED ACCESS PROHIBITED
+        </div>
+        
+        <div class="leak-container">
+            <div class="leak-card">
+                <div class="leak-header">INDONESIA COUNTRY DATA</div>
+                <div class="leak-item">
+                    <span class="leak-label">Country:</span>
+                    <span class="leak-value">Indonesia</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">ISO Code:</span>
+                    <span class="leak-value">ID</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Capital:</span>
+                    <span class="leak-value">Jakarta</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Population:</span>
+                    <span class="leak-value">273,523,615</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">GDP (PPP):</span>
+                    <span class="leak-value">$4.45 Trillion</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Corruption Index:</span>
+                    <span class="leak-value">38/100 (High Corruption)</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Data Breach Level:</span>
+                    <span class="leak-value status-red-text">CRITICAL</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Exposed Records:</span>
+                    <span class="leak-value">1.2 Million</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Breach Date:</span>
+                    <span class="leak-value">2023-12-01</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Source:</span>
+                    <span class="leak-value">Ministry of Finance</span>
+                </div>
+            </div>
+            
+            <div class="leak-card">
+                <div class="leak-header">CORRUPTION STATISTICS</div>
+                <div class="leak-item">
+                    <span class="leak-label">Total Cases:</span>
+                    <span class="leak-value">847</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Total Amount Stolen:</span>
+                    <span class="leak-value">Rp 387.6 Trillion</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Average Per Case:</span>
+                    <span class="leak-value">Rp 457.6 Billion</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Highest Single Theft:</span>
+                    <span class="leak-value status-red-text">Rp 18.7 Trillion</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Most Active Year:</span>
+                    <span class="leak-value">2022</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Recovery Rate:</span>
+                    <span class="leak-value">12.3%</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Conviction Rate:</span>
+                    <span class="leak-value">41.2%</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Active Investigations:</span>
+                    <span class="leak-value">217</span>
+                </div>
+                <div class="leak-item">
+                    <span class="leak-label">Data Access Level:</span>
+                    <span class="leak-value status-red-text">TOP SECRET</span>
+                </div>
+            </div>
+        </div>
+        
+        <h4 style="color: #00ffff; margin: 15px 0 10px; font-size: 1.1rem;">CORRUPTION DATABASE RECORDS</h4>
+        <table class="leak-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Amount (Rp)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Muhammad Basuki</td>
+                    <td>2021-03-15</td>
+                    <td>12,800,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Siti Fadilah</td>
+                    <td>2020-08-22</td>
+                    <td>7,500,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Andi Mallarangeng</td>
+                    <td>2019-11-30</td>
+                    <td>4,200,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Irman Gusman</td>
+                    <td>2018-05-17</td>
+                    <td>3,100,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Setya Novanto</td>
+                    <td>2017-12-01</td>
+                    <td>18,700,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Akil Mochtar</td>
+                    <td>2013-10-02</td>
+                    <td>5,400,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Angelina Sondakh</td>
+                    <td>2012-05-14</td>
+                    <td>2,300,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Bendict Hadi Utomo</td>
+                    <td>2022-07-08</td>
+                    <td>6,900,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Indarto Purnomo</td>
+                    <td>2021-09-19</td>
+                    <td>3,800,000,000,000</td>
+                </tr>
+                <tr>
+                    <td>Luthfi Hasan Ishaaq</td>
+                    <td>2013-02-06</td>
+                    <td>1,700,000,000,000</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="leak-total">
+            TOTAL CORRUPTION AMOUNT: Rp 73,400,000,000,000 (73.4 Trillion Rupiah)
+        </div>
+    </div>
+
+    <!-- Device Fingerprint -->
+    <div class="device-fingerprint">
+        <h3 class="fingerprint-title">COMPLETE DEVICE FINGERPRINT</h3>
+        <div class="fingerprint-container">
+            <div class="fingerprint-card">
+                <div class="fingerprint-header">SYSTEM PROFILE</div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">OS:</span>
+                    <span class="fingerprint-value" id="os">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Browser:</span>
+                    <span class="fingerprint-value" id="browser">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Resolution:</span>
+                    <span class="fingerprint-value" id="resolution">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Color Depth:</span>
+                    <span class="fingerprint-value" id="colorDepth">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Timezone:</span>
+                    <span class="fingerprint-value" id="timezone">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Language:</span>
+                    <span class="fingerprint-value" id="language">Unknown</span>
+                </div>
+                <div class="fingerprint-progress-container">
+                    <div class="fingerprint-progress" id="systemProgress"></div>
+                </div>
+            </div>
+            
+            <div class="fingerprint-card">
+                <div class="fingerprint-header">NETWORK PROFILE</div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">IP Address:</span>
+                    <span class="fingerprint-value" id="ip">127.0.0.1</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Location:</span>
+                    <span class="fingerprint-value" id="location">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">ISP:</span>
+                    <span class="fingerprint-value" id="isp">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Connection:</span>
+                    <span class="fingerprint-value" id="connection">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Proxy:</span>
+                    <span class="fingerprint-value" id="proxy">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">VPN:</span>
+                    <span class="fingerprint-value" id="vpn">Unknown</span>
+                </div>
+                <div class="fingerprint-progress-container">
+                    <div class="fingerprint-progress" id="networkProgress"></div>
+                </div>
+            </div>
+            
+            <div class="fingerprint-card">
+                <div class="fingerprint-header">SECURITY PROFILE</div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Cookies:</span>
+                    <span class="fingerprint-value" id="cookies">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">JavaScript:</span>
+                    <span class="fingerprint-value" id="javascript">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Canvas:</span>
+                    <span class="fingerprint-value" id="canvas">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">WebGL:</span>
+                    <span class="fingerprint-value" id="webgl">Unknown</span>
+                </div>
+                <div class="fingerprint-item">
+                    <span class="fingerprint-label">Audio:</span>
+                    <span class="fingerprint-value" id="audio">Unknown</span>
+                </div>
+                <div class="fingerprint-progress-container">
+                    <div class="fingerprint-progress" id="securityProgress"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fingerprint-status" style="margin-top: 15px;">
+            <div class="status-light status-green"></div>
+            <span class="security-level">COMPLETE FINGERPRINT COLLECTED</span>
+        </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="skills-container animate__animated animate__fadeIn" id="profile">
+        <h3 class="skills-title">KEAHLIAN TEKNIS</h3>
+        
+        <div class="skill-category">
+            <h4 class="category-title">Programming Languages</h4>
+            <ul class="skill-list">
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Python</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="95%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>C/C++</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="85%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Assembly</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>JavaScript</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="90%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>GoLang</span>
+                        <span>70%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="70%"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="skill-category">
+            <h4 class="category-title">Cybersecurity</h4>
+            <ul class="skill-list">
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Ethical Hacking</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="90%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Penetration Testing</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="85%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Reverse Engineering</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Exploit Development</span>
+                        <span>75%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="75%"></div>
+                    </div>
+                </li>
+                <li class="skill-item">
+                    <div class="skill-name">
+                        <span>Digital Forensik</span>
+                        <span>70%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="70%"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+        <h3 class="section-title glitch" data-text="TIMELINE">TIMELINE</h3>
+        <div class="timeline-item animate__animated animate__fadeInLeft">
+            <h4>2019 - Awal Muncul</h4>
+            <p>Meretas sistem sekolah lama, memulai perjalanan cyber dari bawah.</p>
+        </div>
+        <div class="timeline-item animate__animated animate__fadeInRight">
+            <h4>2020 - Moga Team Community</h4>
+            <p>Bergabung dengan Moga Team, menjadi admin dalam waktu 3 bulan.</p>
+        </div>
+        <div class="timeline-item animate__animated animate__fadeInLeft">
+            <h4>2021 - Membentuk Ragnarok</h4>
+            <p>Mendirikan Ragnarok Cyber Company, menjadi pusat peretasan elit di darknet.</p>
+        </div>
+        <div class="timeline-item animate__animated animate__fadeInRight">
+            <h4>2022 - Pengungkapan Rahasia</h4>
+            <p>Mengungkap kelemahan sistem keamanan global yang terlalu berbahaya untuk diabaikan.</p>
+        </div>
+        <div class="timeline-item animate__animated animate__fadeInLeft">
+            <h4>2023 - Soul Entanglement</h4>
+            <p>Terjadi fenomena digital soul fusion, bertemu dengan Terror404 dari void realm yang tak diketahui.</p>
+        </div>
+        <div class="timeline-item animate__animated animate__fadeInRight">
+            <h4>2023 - Soul Contract</h4>
+            <p>Membuat kontrak digital dengan Terror404 untuk menjaga keseimbangan soul dan code.</p>
+        </div>
+        <div class="timeline-item animate__animated animate__fadeInLeft">
+            <h4>2024 - Data Leak</h4>
+            <p>Mengungkap data korupsi di Indonesia yang disembunyikan oleh pemerintah, termasuk catatan keuangan rahasia.</p>
+        </div>
+    </div>
+
+    <!-- Backstory -->
+    <div class="backstory animate__animated animate__fadeInUp">
+        <h3 class="backstory-title">BACKSTORY</h3>
+        <p class="backstory-text">
+            <span>R.zox</span> adalah <em>phantom</em> yang tidak pernah terlihat. Ia tidak memiliki identitas, hanya <em>kode</em> dan <em>malware</em> yang ia tinggalkan di belakang. Ia adalah <em>hacker</em> yang tidak pernah <em>log off</em>, <em>firewall</em> yang ia bobol, tidak pernah bisa direpair.
+        </p>
+        <br>
+        <p class="backstory-text">
+            Sebagai <span>mantan owner Ragnarok Cyber Company</span>, ia dikenal sebagai <em>cyber god</em> yang tak terkalahkan. Ia membangun tim yang mampu <em>take down</em> sistem <em>government</em> hanya dalam hitungan detik.
+        </p>
+        <br>
+        <p class="backstory-text">
+            Sebagai <span>mantan admin Moga Team Community</span>, ia membimbing banyak <em>newbie</em> menjadi <em>elite</em> dalam waktu singkat. Ia mengajarkan <em>dark code</em>, <em>exploit</em>, dan <em>malware</em> yang tak pernah terdeteksi.
+        </p>
+        <br>
+        <p class="backstory-text">
+            R.zox bukan manusia biasa. Ia adalah <em>cyber entity</em>, <em>code incarnate</em>, <em>malware</em> dengan jiwa. Ia tidak pernah mati, hanya <em>sleep</em> dalam <em>binary void</em>, menunggu saat yang tepat untuk <em>execute</em> kembali.
+        </p>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section" id="contact">
+        <h3 class="contact-title">CONTACT ME</h3>
+        <div class="contact-info">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="contact-text">
+                    WhatsApp: <a href="https://wa.me/6288980963797" target="_blank" class="contact-link">0889-8096-3797</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-text">
+                    Email: <a href="mailto:jahraatasya@gmail.com" target="_blank" class="contact-link">jahraatasya@gmail.com</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <div class="contact-text">
+                    Telegram: <a href="https://t.me/Rzox_hack" target="_blank" class="contact-link">@Rzox_hack</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fab fa-github"></i>
+                </div>
+                <div class="contact-text">
+                    GitHub: <a href="https://github.com/Kyoutaka010" target="_blank" class="contact-link">Kyoutaka010</a>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-soul"></i>
+                </div>
+                <div class="contact-text">
+                    Soul Channel: <a href="soul://terror404" class="contact-link">terror404://soul</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain
+        function createMatrixRain() {
+            const matrixRain = document.querySelector('.matrix-rain');
+            const columns = Math.floor(window.innerWidth / 20);
+
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = (i * 20) + 'px';
+                column.style.animationDelay = Math.random() * 5 + 's';
+
+                const length = Math.floor(Math.random() * 20) + 10;
+                for (let j = 0; j < length; j++) {
+                    const char = document.createElement('div');
+                    char.textContent = String.fromCharCode(Math.floor(Math.random() * 96) + 33);
+                    char.style.top = (j * 20) + 'px';
+                    char.style.opacity = Math.random() * 0.5 + 0.5;
+                    column.appendChild(char);
+                }
+
+                matrixRain.appendChild(column);
+            }
+
+            setInterval(() => {
+                const columns = document.querySelectorAll('.matrix-column');
+                columns.forEach(col => {
+                    const chars = col.children;
+                    const lastChar = chars[chars.length - 1];
+                    col.insertBefore(lastChar, col.firstChild);
+                    lastChar.textContent = String.fromCharCode(Math.floor(Math.random() * 96) + 33);
+                    lastChar.style.opacity = Math.random() * 0.5 + 0.5;
+                });
+            }, 300);
+        }
+
+        // Scroll Progress Indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // Animate Skill Bars
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const parentSection = bar.closest('.skills-container');
+                const parentRect = parentSection.getBoundingClientRect();
+
+                if (parentRect.top < window.innerHeight * 0.8 && parentRect.bottom > 0) {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width;
+                }
+            });
+        }
+
+        // Animate Timeline Items
+        function animateTimeline() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8 && !item.classList.contains('show')) {
+                    item.classList.add('show');
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }
+            });
+        }
+
+        // Animate Skill Items
+        function animateSkillItems() {
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8 && !item.classList.contains('show')) {
+                    item.classList.add('show');
+                }
+            });
+        }
+
+        // Status Light Animation
+        function animateStatus() {
+            const statusLight = document.getElementById('statusLight');
+            const statusText = document.getElementById('statusText');
+            
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    statusLight.style.backgroundColor = '#ff0000';
+                    statusLight.style.boxShadow = '0 0 8px rgba(255, 0, 0, 0.8)';
+                    statusText.style.color = '#ff0000';
+                    statusText.className = 'status-red-text';
+                    statusText.style.textShadow = '0 0 5px rgba(255, 0, 0, 0.7)';
+                } else {
+                    statusLight.style.backgroundColor = '#00ff00';
+                    statusLight.style.boxShadow = '0 0 8px rgba(0, 255, 0, 0.8)';
+                    statusText.style.color = '#00ffff';
+                    statusText.className = 'status-active';
+                    statusText.style.textShadow = '0 0 5px rgba(0, 255, 255, 0.7)';
+                }
+            }, 2000);
+        }
+
+        // Update Soul Sync Time
+        function updateSoulSync() {
+            const lastSyncTerror = document.getElementById('lastSyncTerror');
+            const now = new Date();
+            lastSyncTerror.textContent = now.toLocaleTimeString();
+            
+            setInterval(() => {
+                const now = new Date();
+                lastSyncTerror.textContent = now.toLocaleTimeString();
+            }, 1000);
+        }
+
+        // Glitch Effect
+        function applyGlitchEffect() {
+            const glitchElements = document.querySelectorAll('.glitch');
+            glitchElements.forEach(el => {
+                el.setAttribute('data-text', el.textContent);
+            });
+        }
+
+        // Random Glitch Trigger
+        function triggerGlitchEffect() {
+            const h1 = document.querySelector('h1');
+            if (h1) {
+                h1.classList.add('glitch');
+                setTimeout(() => {
+                    h1.classList.remove('glitch');
+                }, 300);
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            createMatrixRain();
+            animateSkillBars();
+            animateTimeline();
+            animateSkillItems();
+            animateStatus();
+            updateSoulSync();
+            applyGlitchEffect();
+            collectDeviceFingerprint();
+            
+            // Audio auto-play
+            const audio = document.getElementById('backgroundAudio');
+            audio.play().catch(e => {
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                overlay.style.display = 'flex';
+                overlay.style.justifyContent = 'center';
+                overlay.style.alignItems = 'center';
+                overlay.style.zIndex = '99999';
+                overlay.style.flexDirection = 'column';
+                overlay.innerHTML = `
+                    <div style="color: #0f0; font-family: 'Orbitron', sans-serif; font-size: 1.5rem; margin-bottom: 15px;">AUDIO PAUSED</div>
+                    <div style="color: #0f0; text-align: center; font-size: 0.9rem;">Click to enable background sound</div>
+                `;
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', () => {
+                    audio.play();
+                    document.body.removeChild(overlay);
+                });
+            });
+        });
+
+        // Cursor Animation
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Touch support for mobile
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            cursor.style.left = touch.clientX + 'px';
+            cursor.style.top = touch.clientY + 'px';
+        });
+
+        // Hover Effects
+        const hoverElements = document.querySelectorAll('.info-item, .timeline-item, .category-title, .contact-item, .info-category, .partner-item, .connection-indicator');
+        hoverElements.forEach(elem => {
+            elem.addEventListener('mouseenter', () => {
+                cursor.classList.add('hack');
+            });
+            elem.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hack');
+            });
+        });
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateSkillBars();
+                    animateTimeline();
+                    animateSkillItems();
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections
+        const sections = document.querySelectorAll('.skills-container, .timeline, .backstory, .contact-section, .additional-info, .relationship-section, .device-fingerprint, .data-leak');
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Device Fingerprint Collection
+        async function collectDeviceFingerprint() {
+            // System Information
+            document.getElementById('os').textContent = navigator.platform || 'Unknown';
+            document.getElementById('browser').textContent = navigator.userAgent.includes('Chrome') ? 'Chrome' : 
+                                                            navigator.userAgent.includes('Firefox') ? 'Firefox' : 
+                                                            navigator.userAgent.includes('Safari') ? 'Safari' : 'Unknown';
+            document.getElementById('resolution').textContent = `${window.screen.width}x${window.screen.height}`;
+            document.getElementById('colorDepth').textContent = `${window.screen.colorDepth || 32}-bit`;
+            document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+            document.getElementById('language').textContent = navigator.language || 'Unknown';
+
+            // Security Information
+            document.getElementById('cookies').textContent = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
+            document.getElementById('javascript').textContent = 'Enabled';
+
+            // Canvas Fingerprint
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.font = '14px Arial';
+            ctx.textBaseline = 'top';
+            ctx.fillText('R.zox', 2, 2);
+            const canvasData = canvas.toDataURL();
+            document.getElementById('canvas').textContent = canvasData.substring(0, 15) + '...';
+
+            // WebGL Fingerprint
+            try {
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'Unknown';
+                    document.getElementById('webgl').textContent = renderer;
+                } else {
+                    document.getElementById('webgl').textContent = 'Not Supported';
+                }
+            } catch (e) {
+                document.getElementById('webgl').textContent = 'Error';
+            }
+
+            // Audio Fingerprint
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const analyser = audioCtx.createAnalyser();
+                oscillator.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                oscillator.start();
+                setTimeout(() => {
+                    const bufferLength = analyser.frequencyBinCount;
+                    const dataArray = new Uint8Array(bufferLength);
+                    analyser.getByteFrequencyData(dataArray);
+                    document.getElementById('audio').textContent = dataArray.slice(0, 3).join(',') + '...';
+                    oscillator.stop();
+                }, 100);
+            } catch (e) {
+                document.getElementById('audio').textContent = 'Error';
+            }
+
+            // Network Information
+            document.getElementById('connection').textContent = navigator.onLine ? 'Online' : 'Offline';
+
+            // Simulate IP and Location
+            setTimeout(() => {
+                document.getElementById('ip').textContent = '10.0.0.15';
+                document.getElementById('location').textContent = 'Indonesia';
+                document.getElementById('isp').textContent = 'SecureNet';
+                document.getElementById('connection').textContent = 'Quantum Encrypted';
+                document.getElementById('proxy').textContent = 'Tor + VPN';
+                document.getElementById('vpn').textContent = 'Active';
+            }, 1000);
+
+            // Animate progress bars
+            setTimeout(() => {
+                document.getElementById('systemProgress').style.width = '95%';
+                document.getElementById('networkProgress').style.width = '90%';
+                document.getElementById('securityProgress').style.width = '85%';
+            }, 800);
+        }
+    </script>
+</body>
+</html>
